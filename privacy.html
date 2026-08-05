@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Flint Mail</title>
+<style>
+  :root { --accent: #6EB1DB; --bg: #ffffff; --fg: #111418; --muted: #5c6570; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0d1117; --fg: #f0f3f6; --muted: #98a3ad; }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--fg); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 680px; margin: 0 auto; padding: 72px 24px 64px; }
+  h1 { font-size: 1.9rem; letter-spacing: -0.02em; }
+  .updated { color: var(--muted); font-size: 0.9rem; margin: 8px 0 36px; }
+  h2 { font-size: 1.15rem; margin: 32px 0 8px; }
+  p, li { color: var(--fg); font-size: 0.98rem; }
+  ul { padding-left: 22px; margin: 8px 0; }
+  a { color: var(--accent); }
+  .home { display: inline-block; margin-bottom: 24px; color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="home" href="/">← Flint Mail</a>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Effective August 5, 2026</p>
+
+  <p>Flint Mail ("Flint") is an email app for iPhone made by Jason Crane. Flint is built so that
+  your email stays yours: the app has no mail servers, and your messages are never sent to us or
+  to anyone else.</p>
+
+  <h2>What Flint stores, and where</h2>
+  <ul>
+    <li><strong>Your email</strong> — messages, attachments, and contacts you interact with are
+    downloaded directly from your mail provider (such as Gmail, Microsoft Outlook, Yahoo, AOL, or
+    iCloud Mail) to your device, and stored only on your device.</li>
+    <li><strong>Your credentials</strong> — sign-in tokens and app passwords are stored in your
+    device's Keychain. They are sent only to your own mail provider to sign you in, never to us.
+    Flint has no account system of its own.</li>
+    <li><strong>Settings</strong> — preferences (such as appearance and blocked senders) are stored
+    on your device.</li>
+  </ul>
+
+  <h2>What leaves your device</h2>
+  <ul>
+    <li><strong>Mail protocol traffic</strong> — Flint talks directly to your mail provider over
+    encrypted connections (their official APIs, or IMAP/SMTP over TLS) to read and send your mail.</li>
+    <li><strong>New-mail notifications</strong> — for providers that support push (Gmail and
+    Outlook), a small relay service operated for Flint passes "something changed" signals from your
+    provider to Apple's notification service. This relay stores only the pairing between an email
+    address and a device notification token. It never receives, stores, or can read the content of
+    any message. Accounts connected over IMAP (Yahoo, AOL, iCloud, and others) are never registered
+    with the relay; they check for mail directly from your device.</li>
+    <li><strong>Sender images</strong> — to show company logos and pictures inside emails, Flint
+    fetches images from the sender's own servers, then caches them on your device.</li>
+  </ul>
+
+  <h2>What Flint does not do</h2>
+  <ul>
+    <li>No analytics, tracking, or advertising SDKs.</li>
+    <li>No selling, sharing, or mining of your data — we never possess it in the first place.</li>
+    <li>No server-side copies of your mailbox or credentials.</li>
+  </ul>
+
+  <h2>Deleting your data</h2>
+  <p>Removing an account inside Flint deletes its locally stored mail and credentials from your
+  device. Deleting the app removes everything Flint stored. Because Flint keeps no server-side
+  data about you, there is nothing further to delete on our end.</p>
+
+  <h2>Your mail provider</h2>
+  <p>Your use of Gmail, Outlook, Yahoo, AOL, or iCloud Mail remains governed by that provider's own
+  terms and privacy policy. Flint accesses your mailbox only after you sign in and authorize it,
+  and you can revoke that access at any time in your provider's security settings.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the updated version will be posted at this address with a new
+  effective date.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about privacy in Flint: <a href="mailto:support@3dlibrary.app">support@3dlibrary.app</a></p>
+</main>
+</body>
+</html>
