@@ -678,12 +678,12 @@
   /* Zones hug the phone (Flighty-style): anchored off the center line so
      bubbles sit close to, and slightly overlap, the device edges. */
   const zones = [
-    { side: 'left',  min: 3,  max: 15 },
-    { side: 'left',  min: 34, max: 50 },
-    { side: 'left',  min: 64, max: 76 },
-    { side: 'right', min: 8,  max: 22 },
-    { side: 'right', min: 40, max: 56 },
-    { side: 'right', min: 68, max: 80 }
+    { side: 'left',  min: 2,  max: 12 },
+    { side: 'left',  min: 32, max: 44 },
+    { side: 'left',  min: 66, max: 78 },
+    { side: 'right', min: 6,  max: 16 },
+    { side: 'right', min: 38, max: 50 },
+    { side: 'right', min: 70, max: 80 }
   ];
 
   const pool = [
@@ -725,8 +725,8 @@
     el.textContent = draw();
     el.style.top = el.style.bottom = el.style.left = el.style.right = '';
     el.style.top = rand(z.min, z.max) + '%';
-    if (z.side === 'left') el.style.right = 'calc(50% + ' + rand(95, 165) + 'px)';
-    else el.style.left = 'calc(50% + ' + rand(105, 175) + 'px)';
+    if (z.side === 'left') el.style.right = 'calc(50% + ' + rand(175, 215) + 'px)';
+    else el.style.left = 'calc(50% + ' + rand(175, 215) + 'px)';
     void el.offsetWidth;
     el.classList.add('pop-in');
     setTimeout(() => {
