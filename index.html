@@ -124,7 +124,7 @@
     .hero-stage .device, .float { animation: none; }
   }
   .float {
-    position: absolute; z-index: 3;
+    position: absolute; z-index: 6;
     border-radius: 19px;
     padding: 11px 16px;
     font-size: 0.94rem; line-height: 1.38;
@@ -427,10 +427,6 @@
       <img class="scr" src="/assets/shot-brands.png" alt="Flint chat list with company senders and logos">
     </div>
   </div>
-  <div class="float them f1" id="fb1">Are we still on for tomorrow night? I was thinking that new Thai place on Main 🍜</div>
-  <div class="float row f2" id="fr1"><span class="av" style="background:#c33fd4;">EC</span><span><span class="nm">Emily Carter</span><br><span class="pv">Perfect — see you at 7! 🎉</span></span></div>
-  <div class="float me f3" id="fb2">Absolutely! Does 7 work for you?</div>
-  <div class="float row f4" id="fr2"><span class="av" style="background:#2f7cf6;">MR</span><span><span class="nm">Mike Rossi</span><br><span class="pv">9am tee time ⛳</span></span><span class="dot"></span></div>
   <div class="hero-fade"></div>
 </div>
 
@@ -502,13 +498,13 @@
         <div class="hdr">Re: Re: Re: Dinner tomorrow?</div>
         <p>Perfect — see you at 7!</p>
         <div class="q1">
-          <span class="hdr">On Aug 5, 2026, at 8:31 PM, jay wrote:</span><br>
+          <span class="hdr">On Aug 5, 2026, at 8:31 PM, Sam wrote:</span><br>
           Absolutely! Does 7 work for you?
           <div class="q2">
             <span class="hdr">On Aug 5, 2026, at 8:29 PM, Emily wrote:</span><br>
             Are we still on for tomorrow night? I was thinking that new Thai place on Main
             <div class="q2">
-              <span class="hdr">From: jay crane<br>Sent: Tuesday, August 4…</span>
+              <span class="hdr">From: Sam Parker<br>Sent: Tuesday, August 4…</span>
             </div>
           </div>
         </div>
@@ -618,7 +614,7 @@
   <div class="foot-inner">
     <a href="/privacy.html">Privacy Policy</a>
     <a href="mailto:support@3dlibrary.app">support@3dlibrary.app</a>
-    <span class="copy">© 2026 Jason Crane</span>
+    <span class="copy">© 2026 Flint Mail</span>
   </div>
 </footer>
 
@@ -671,71 +667,88 @@
     }, 5200);
   }
 
-  /* Each float slot pops in and out like a Messages bubble, on its own
-     random timer and at a randomized spot inside its own zone — zones
-     never overlap, so bubbles stay readable and spaced out. */
-  const slots = [
-    { id: 'fb1', kind: 'bubble', pos: { side: 'left', edge: 'top', min: 3, max: 17 },
-      items: [
-        'Are we still on for tomorrow night? I was thinking that new Thai place on Main 🍜',
-        'The lake house is booked! June 12–14. Bring the kayaks 🛶',
-        'Saw this and thought of you 😂',
-        'Concert was unreal. Next one is on me 🎸'
-      ] },
-    { id: 'fr1', kind: 'row', pos: { side: 'right', edge: 'top', min: 10, max: 28 },
-      items: [
-        { av: 'EC', c: '#c33fd4', nm: 'Emily Carter', pv: 'Perfect — see you at 7! 🎉', dot: false },
-        { av: 'SK', c: '#2f89f6', nm: 'Sarah Kim', pv: 'Bring the kayaks 🛶', dot: false },
-        { av: 'D',  c: '#1f7bf0', nm: 'Dad', pv: 'Call us this weekend!', dot: true }
-      ] },
-    { id: 'fb2', kind: 'bubble', pos: { side: 'left', edge: 'bottom', min: 16, max: 30 },
-      items: [
-        'Absolutely! Does 7 work for you?',
-        'Count me in — leaving Friday at 4.',
-        'Calling you Saturday morning!',
-        'You free for lunch tomorrow?'
-      ] },
-    { id: 'fr2', kind: 'row', pos: { side: 'right', edge: 'bottom', min: 4, max: 16 },
-      items: [
-        { av: 'MR', c: '#2f7cf6', nm: 'Mike Rossi', pv: '9am tee time ⛳', dot: true },
-        { av: 'AR', c: '#7176e8', nm: 'Alex Rivera', pv: 'Got two for Friday night! 🎟', dot: true },
-        { av: 'RN', c: '#34c759', nm: 'Rachel Nguyen', pv: "She's going to love it 🎂", dot: false }
-      ] }
-  ];
+  /* Messages pop in and out around the phone like real notifications:
+     a big shuffled pool of messages, six uneven zones on both sides
+     (claimed while in use so nothing overlaps), independent random timers. */
   const rand = (a, b) => a + Math.random() * (b - a);
-  function applyContent(el, slot, item) {
-    if (slot.kind === 'bubble') { el.textContent = item; return; }
-    const av = el.querySelector('.av');
-    av.textContent = item.av; av.style.background = item.c;
-    el.querySelector('.nm').textContent = item.nm;
-    el.querySelector('.pv').textContent = item.pv;
-    let dot = el.querySelector('.dot');
-    if (item.dot && !dot) { dot = document.createElement('span'); dot.className = 'dot'; el.appendChild(dot); }
-    if (!item.dot && dot) dot.remove();
+  const stage = document.querySelector('.hero-stage');
+
+  const zones = [
+    { side: 'left',  edge: 'top',    min: 2,  max: 14 },
+    { side: 'left',  edge: 'top',    min: 36, max: 52 },
+    { side: 'left',  edge: 'bottom', min: 6,  max: 20 },
+    { side: 'right', edge: 'top',    min: 7,  max: 22 },
+    { side: 'right', edge: 'top',    min: 46, max: 60 },
+    { side: 'right', edge: 'bottom', min: 3,  max: 15 }
+  ];
+
+  const pool = [
+    { k: 'them', t: 'Are we still on for tomorrow night? Thinking that new Thai place on Main 🍜' },
+    { k: 'them', t: 'The lake house is booked! June 12–14. Bring the kayaks 🛶' },
+    { k: 'them', t: 'Saw this and thought of you 😂' },
+    { k: 'them', t: 'Concert was unreal. Next one is on me 🎸' },
+    { k: 'them', t: 'Flight lands at 6:15 — see you at baggage claim ✈️' },
+    { k: 'them', t: 'The photos from Saturday are amazing 📸' },
+    { k: 'them', t: 'Game night at ours on Friday?' },
+    { k: 'them', t: 'Just sent you the recipe 🍝' },
+    { k: 'them', t: 'Movie starts at 9, don’t be late 🍿' },
+    { k: 'me', t: 'Absolutely! Does 7 work for you?' },
+    { k: 'me', t: 'Count me in — leaving Friday at 4.' },
+    { k: 'me', t: 'Calling you Saturday morning!' },
+    { k: 'me', t: 'You free for lunch tomorrow?' },
+    { k: 'me', t: 'On my way! 🚗' },
+    { k: 'me', t: 'Just booked the tickets ✈️' },
+    { k: 'me', t: 'Send me the address and I’m there' },
+    { k: 'me', t: 'That’s amazing — congrats! 🥳' },
+    { k: 'row', av: 'EC', c: '#c33fd4', nm: 'Emily Carter', pv: 'Perfect — see you at 7! 🎉', dot: false },
+    { k: 'row', av: 'SK', c: '#2f89f6', nm: 'Sarah Kim', pv: 'Bring the kayaks 🛶', dot: false },
+    { k: 'row', av: 'D',  c: '#1f7bf0', nm: 'Dad', pv: 'Call us this weekend!', dot: true },
+    { k: 'row', av: 'MR', c: '#2f7cf6', nm: 'Mike Rossi', pv: '9am tee time ⛳', dot: true },
+    { k: 'row', av: 'AR', c: '#7176e8', nm: 'Alex Rivera', pv: 'Got two for Friday night! 🎟', dot: true },
+    { k: 'row', av: 'RN', c: '#34c759', nm: 'Rachel Nguyen', pv: 'She’s going to love it 🎂', dot: false },
+    { k: 'row', av: 'G',  c: '#e8843c', nm: 'Grandma', pv: 'Love you sweetie ❤️', dot: false },
+    { k: 'row', av: 'CT', c: '#1f7bf0', nm: 'Chris Thompson', pv: 'Draft order is set 🏈', dot: true }
+  ];
+  let bag = [];
+  function draw() {
+    if (!bag.length) bag = pool.map((_, i) => i).sort(() => Math.random() - 0.5);
+    return pool[bag.pop()];
   }
-  function place(el, pos) {
-    el.style.top = el.style.bottom = '';
-    el.style[pos.edge] = rand(pos.min, pos.max) + '%';
-    el.style[pos.side] = rand(1.5, 6) + '%';
+  function rowHTML(d) {
+    return '<span class="av" style="background:' + d.c + '">' + d.av + '</span>' +
+      '<span><span class="nm">' + d.nm + '</span><br><span class="pv">' + d.pv + '</span></span>' +
+      (d.dot ? '<span class="dot"></span>' : '');
   }
-  function runSlot(slot, idx) {
-    const el = document.getElementById(slot.id);
-    applyContent(el, slot, slot.items[idx]);
-    place(el, slot.pos);
-    el.classList.remove('pop-out');
+  function cycle(el) {
+    const free = zones.map((z, i) => z.busy ? -1 : i).filter(i => i >= 0);
+    if (!free.length) { setTimeout(() => cycle(el), 700); return; }
+    const zi = free[Math.floor(Math.random() * free.length)];
+    const z = zones[zi]; z.busy = true;
+    const item = draw();
+    el.className = 'float ' + (item.k === 'row' ? 'row' : item.k);
+    if (item.k === 'row') el.innerHTML = rowHTML(item); else el.textContent = item.t;
+    el.style.top = el.style.bottom = el.style.left = el.style.right = '';
+    el.style[z.edge] = rand(z.min, z.max) + '%';
+    el.style[z.side] = rand(1, 7) + '%';
     void el.offsetWidth;
     el.classList.add('pop-in');
     setTimeout(() => {
       el.classList.remove('pop-in');
       void el.offsetWidth;
       el.classList.add('pop-out');
-      setTimeout(() => runSlot(slot, (idx + 1) % slot.items.length), rand(1100, 2800));
-    }, rand(3400, 5600));
+      setTimeout(() => {
+        z.busy = false;
+        setTimeout(() => cycle(el), rand(250, 1400));
+      }, 340);
+    }, rand(3000, 5400));
   }
-  if (!reduceMotion) {
-    slots.forEach((slot, k) => setTimeout(() => runSlot(slot, 0), 500 + k * 900 + rand(0, 1400)));
-  } else {
-    slots.forEach(slot => { document.getElementById(slot.id).style.opacity = 1; });
+  if (!reduceMotion && stage) {
+    for (let a = 0; a < 4; a++) {
+      const el = document.createElement('div');
+      el.className = 'float';
+      stage.appendChild(el);
+      setTimeout(() => cycle(el), 400 + a * 700 + rand(0, 1200));
+    }
   }
 </script>
 
