@@ -154,6 +154,10 @@
     100% { opacity: 0; transform: scale(0.55) translateY(10px); }
   }
   .float.them { background: #3a3a3c; border-bottom-left-radius: 5px; transform-origin: bottom left; }
+  .float.them.tail-r {
+    border-bottom-left-radius: 19px; border-bottom-right-radius: 5px;
+    transform-origin: bottom right;
+  }
   .float.me { background: #0a84ff; border-bottom-right-radius: 5px; transform-origin: bottom right; }
   .float.row { transform-origin: center bottom; }
   .float.row {
@@ -721,7 +725,7 @@
     if (!free.length) { setTimeout(() => cycle(el), 900); return; }
     const zi = free[Math.floor(Math.random() * free.length)];
     const z = zones[zi]; z.busy = true;
-    el.className = 'float them';
+    el.className = 'float them' + (z.side === 'right' ? ' tail-r' : '');
     el.textContent = draw();
     el.style.top = el.style.bottom = el.style.left = el.style.right = '';
     el.style.top = rand(z.min, z.max) + '%';
