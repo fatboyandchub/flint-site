@@ -101,12 +101,6 @@
     content: ""; position: absolute; top: 4.2%; left: 50%; transform: translateX(-50%);
     width: 30%; height: 2.9%; border-radius: 999px; background: #000;
   }
-  .device .screen {
-    position: relative; overflow: hidden; border-radius: 10.8% / 5%;
-  }
-  .device .screen img { border-radius: 0; opacity: 0; transition: opacity 1.1s ease; }
-  .device .screen img:not(:first-child) { position: absolute; inset: 0; }
-  .device .screen img.on { opacity: 1; }
 
   /* ---- Hero stage (Flighty-style: centered phone + floating cards) ---- */
   .hero-stage {
@@ -122,14 +116,14 @@
     background: linear-gradient(180deg, transparent, var(--bg));
     z-index: 4; pointer-events: none;
   }
-  .hero-stage .device {
-    width: min(300px, 74vw); z-index: 2;
+  .hero-stage .phones {
+    position: relative; width: min(405px, 100vw); z-index: 2;
     align-self: flex-start;
-    animation: phonefloat 7s ease-in-out infinite;
   }
-  @keyframes phonefloat { 50% { transform: translateY(-8px); } }
+  .hero-stage video.phone { width: 100%; display: block; }
+  .hero-stage video.intro { position: absolute; inset: 0; }
   @media (prefers-reduced-motion: reduce) {
-    .hero-stage .device, .float { animation: none; }
+    .float { animation: none; }
   }
   .float {
     position: absolute; z-index: 6;
@@ -427,12 +421,11 @@
 </header>
 
 <div class="hero-stage">
-  <div class="device">
-    <div class="screen">
-      <img class="scr on" src="/assets/shot-chats.png" alt="Flint's chat list on iPhone, where every sender is a conversation">
-      <img class="scr" src="/assets/shot-brands.png" alt="Flint chat list with company senders and logos">
-      <img class="scr" src="/assets/shot-accounts.png" alt="Flint's Add Account screen with every provider">
-    </div>
+  <div class="phones" aria-label="An iPhone buzzes with a Flint Mail notification, unlocks, and shows the chat list">
+    <video class="phone loop" src="/assets/hero-loop.mp4" poster="/assets/hero-loop-poster.jpg"
+           muted loop playsinline preload="auto"></video>
+    <video class="phone intro" src="/assets/hero-intro.mp4"
+           autoplay muted playsinline></video>
   </div>
 </div>
 
@@ -660,17 +653,23 @@
     go(idx + 1 >= slides.length ? 0 : idx + 1);
   }, 4200);
 
-  /* ---- Hero animations: phone screen crossfade + cycling messages ---- */
+  /* ---- Hero animations: unlock intro video, then a seamless loop ---- */
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const scrs = [...document.querySelectorAll('.hero-stage .scr')];
-  let si = 0;
-  if (!reduceMotion && scrs.length) {
-    setInterval(() => {
-      scrs[si].classList.remove('on');
-      si = (si + 1) % scrs.length;
-      scrs[si].classList.add('on');
-    }, 7000);
+  const introVid = document.querySelector('.hero-stage video.intro');
+  const loopVid = document.querySelector('.hero-stage video.loop');
+  if (introVid && loopVid) {
+    const startLoop = () => {
+      if (!reduceMotion) loopVid.play().catch(() => {});
+      introVid.remove();
+    };
+    introVid.addEventListener('ended', startLoop);
+    if (reduceMotion) {
+      startLoop();                      // static chat list, no motion
+    } else {
+      const p = introVid.play();
+      if (p) p.catch(startLoop);        // autoplay blocked: show the loop's poster
+    }
   }
 
   /* Messages pop in and out around the phone like real notifications:
