@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Flint Mail — Email that feels like texting</title>
-<meta name="description" content="Flint Mail is an iOS email client that turns your inbox into chat-style conversations. Private by design: your mail never touches our servers — there aren't any.">
+<title>Flint Mail - Email that feels like texting</title>
+<meta name="description" content="Flint Mail is an iOS email client that turns your inbox into chat-style conversations. Private by design: your mail never touches our servers. There aren't any.">
 <link rel="icon" type="image/png" href="/assets/icon-180.png">
 <link rel="apple-touch-icon" href="/assets/icon-180.png">
-<meta property="og:title" content="Flint Mail — Email that feels like texting">
+<meta property="og:title" content="Flint Mail - Email that feels like texting">
 <meta property="og:description" content="Your inbox, as chats. Gmail, Outlook, iCloud, Yahoo and AOL in one iMessage-style app. No servers, total privacy.">
 <meta property="og:image" content="https://flint.3dlibrary.app/assets/icon-512.png">
 <meta property="og:url" content="https://flint.3dlibrary.app/">
@@ -114,9 +114,17 @@
     max-width: 980px; margin: 54px auto 0;
     display: flex; justify-content: center;
     padding: 0 22px;
+    height: clamp(360px, 118vw, 500px);
+    overflow: hidden;
+  }
+  .hero-stage::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 90px;
+    background: linear-gradient(180deg, transparent, var(--bg));
+    z-index: 4; pointer-events: none;
   }
   .hero-stage .device {
     width: min(300px, 74vw); z-index: 2;
+    align-self: flex-start;
     animation: phonefloat 7s ease-in-out infinite;
   }
   @keyframes phonefloat { 50% { transform: translateY(-8px); } }
@@ -360,7 +368,7 @@
   .faq details[open] summary::after { transform: rotate(45deg); }
   .faq details p { padding: 0 4px 20px; color: var(--muted); font-size: 0.97rem; }
 
-  /* Compact mobile layout — keep grids side-by-side so the page stays short */
+  /* Compact mobile layout: keep grids side-by-side so the page stays short */
   @media (max-width: 640px) {
     section { padding: 52px 16px; }
     .grid {
@@ -410,16 +418,16 @@
 <header class="hero">
   <img class="appicon" src="/assets/icon-512.png" alt="Flint Mail app icon">
   <h1>Email that feels<br>like <span class="grad">texting.</span></h1>
-  <p class="sub">Flint turns every sender into a conversation. Bubbles instead of chains, replies instead of rituals — your inbox finally reads like your messages.</p>
+  <p class="sub">Flint turns every sender into a conversation. Bubbles instead of chains, replies instead of rituals. Your inbox finally reads like your messages.</p>
   <span class="soon-pill"><span class="dot"></span>Coming soon to iPhone</span>
 </header>
 
 <div class="hero-stage">
   <div class="device">
     <div class="screen">
-      <img class="scr on" src="/assets/shot-chats.png" alt="Flint's chat list on iPhone — every sender is a conversation">
-      <img class="scr" src="/assets/shot-conversation.png" alt="A Flint conversation with chat bubbles">
+      <img class="scr on" src="/assets/shot-chats.png" alt="Flint's chat list on iPhone, where every sender is a conversation">
       <img class="scr" src="/assets/shot-brands.png" alt="Flint chat list with company senders and logos">
+      <img class="scr" src="/assets/shot-accounts.png" alt="Flint's Add Account screen with every provider">
     </div>
   </div>
 </div>
@@ -429,7 +437,7 @@
 
     <article class="slide" style="--g1:#1c3f66; --g2:#0a1524;">
       <h3>Your inbox,<br>as chats.</h3>
-      <p>Every sender becomes a conversation — people first, noise last.</p>
+      <p>Every sender becomes a conversation. People first, noise last.</p>
       <div class="device"><img src="/assets/shot-chats.png" alt="Flint chat list, dark mode"></div>
     </article>
 
@@ -441,7 +449,7 @@
 
     <article class="slide on-light" style="--g1:#eef1f5; --g2:#c8d2de;">
       <h3>Light or dark.</h3>
-      <p>Flint follows your iPhone — or set the mood yourself.</p>
+      <p>Flint follows your iPhone, or you can set the mood yourself.</p>
       <div class="duo">
         <div class="device"><img src="/assets/shot-light-list.png" alt="Flint in light mode"></div>
         <div class="device"><img src="/assets/shot-chats.png" alt="Flint in dark mode"></div>
@@ -450,13 +458,13 @@
 
     <article class="slide" style="--g1:#14413c; --g2:#081a17;">
       <h3>Every account.<br>One app.</h3>
-      <p>Gmail, Outlook, iCloud, Yahoo, AOL — even plain IMAP.</p>
+      <p>Gmail, Outlook, iCloud, Yahoo, AOL, even plain IMAP.</p>
       <div class="device"><img src="/assets/shot-accounts.png" alt="Flint's Add Account screen with all providers"></div>
     </article>
 
     <article class="slide" style="--g1:#3a2350; --g2:#150c22;">
       <h3>Photos, front<br>and center.</h3>
-      <p>Attachments show up like they do in Messages — big and beautiful.</p>
+      <p>Attachments show up like they do in Messages: big and beautiful.</p>
       <div class="photo-stack">
         <div class="pic"><img src="/assets/shot-photo-clean.png" alt="A photo attachment shown big and inline, like Messages"></div>
         <div class="bubble me">Wish you were here! 🏞</div>
@@ -471,7 +479,7 @@
 
     <article class="slide" style="--g1:#26262e; --g2:#0e0e12;">
       <h3>Newsletters,<br>tamed.</h3>
-      <p>Brands get their logos and their own lane — out of your way.</p>
+      <p>Brands get their logos and their own lane, out of your way.</p>
       <div class="device"><img src="/assets/shot-brands.png" alt="Flint chat list with company senders and logos"></div>
     </article>
 
@@ -490,7 +498,7 @@
       <span class="tag">Every other mail app</span>
       <div class="chain">
         <div class="hdr">Re: Re: Re: Dinner tomorrow?</div>
-        <p>Perfect — see you at 7!</p>
+        <p>Perfect, see you at 7!</p>
         <div class="q1">
           <span class="hdr">On Aug 5, 2026, at 8:31 PM, Sam wrote:</span><br>
           Absolutely! Does 7 work for you?
@@ -509,7 +517,7 @@
       <div class="bubbles">
         <div class="bubble them">Are we still on for tomorrow night? I was thinking that new Thai place on Main 🍜</div>
         <div class="bubble me">Absolutely! Does 7 work for you?</div>
-        <div class="bubble them">Perfect — see you at 7! 🎉</div>
+        <div class="bubble them">Perfect, see you at 7! 🎉</div>
       </div>
     </div>
   </div>
@@ -517,13 +525,13 @@
 
 <section class="stats">
   <div class="stat"><div class="num">0</div><div class="lbl">Flint servers between you and your mail</div></div>
-  <div class="stat"><div class="num">5+</div><div class="lbl">providers — plus any IMAP account</div></div>
+  <div class="stat"><div class="num">5+</div><div class="lbl">providers, plus any IMAP account</div></div>
   <div class="stat"><div class="num">100%</div><div class="lbl">of your mail stored on your iPhone</div></div>
 </section>
 
 <section id="features">
   <h2 class="sec-title">Built like a messenger.<br>Works like email.</h2>
-  <p class="sec-sub">Underneath the bubbles it's real, full-fat email — sent from your own address, synced with your provider.</p>
+  <p class="sec-sub">Underneath the bubbles it's real, full-fat email, sent from your own address and synced with your provider.</p>
   <div class="grid">
     <div class="card">
       <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.9-.9L3 21l1.9-5.6a8.38 8.38 0 0 1-.9-3.9 8.5 8.5 0 0 1 8.5-8.5 8.38 8.38 0 0 1 8.5 8.5Z"/></svg></div>
@@ -533,7 +541,7 @@
     <div class="card">
       <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></svg></div>
       <h3>All your accounts</h3>
-      <p>Gmail, Outlook, iCloud, Yahoo and AOL — one app, one inbox language, instant account switching.</p>
+      <p>Gmail, Outlook, iCloud, Yahoo and AOL in one app, with instant account switching.</p>
     </div>
     <div class="card">
       <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
@@ -543,12 +551,12 @@
     <div class="card">
       <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
       <h3>Search everything</h3>
-      <p>Your whole mailbox is cached on-device, so search is instant — even in Airplane Mode.</p>
+      <p>Your whole mailbox is cached on-device, so search is instant, even in Airplane Mode.</p>
     </div>
     <div class="card">
       <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg></div>
       <h3>Sending you can trust</h3>
-      <p>Outgoing mail is queued safely on your device and sent exactly once — never lost, never duplicated.</p>
+      <p>Outgoing mail is queued safely on your device and sent exactly once. Never lost, never duplicated.</p>
     </div>
     <div class="card">
       <div class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
@@ -583,15 +591,15 @@
   <div style="margin-top: 34px;">
     <details>
       <summary>How is Flint different from Mail or Gmail?</summary>
-      <p>Traditional apps show email the way servers store it: threads full of quoted history, subject lines, and signatures. Flint reads the thread for you and shows just what each person actually said — as chat bubbles, grouped by sender, newest at the bottom. It feels like Messages, but every message is real email.</p>
+      <p>Traditional apps show email the way servers store it: threads full of quoted history, subject lines, and signatures. Flint reads the thread for you and shows just what each person actually said, as chat bubbles, grouped by sender, newest at the bottom. It feels like Messages, but every message is real email.</p>
     </details>
     <details>
       <summary>Which accounts can I connect?</summary>
-      <p>Gmail and Google Workspace, Outlook and Microsoft 365, iCloud Mail, Yahoo, AOL — and any standard IMAP mailbox. You can connect several at once and switch instantly.</p>
+      <p>Gmail and Google Workspace, Outlook and Microsoft 365, iCloud Mail, Yahoo, AOL, and any standard IMAP mailbox. You can connect several at once and switch instantly.</p>
     </details>
     <details>
       <summary>Where is my email stored?</summary>
-      <p>On your iPhone, in an encrypted local cache — that's also why search and scrolling are instant. Flint talks directly to your mail provider; there is no Flint cloud in between, and your credentials never leave the iOS Keychain.</p>
+      <p>On your iPhone, in an encrypted local cache. That's also why search and scrolling are instant. Flint talks directly to your mail provider; there is no Flint cloud in between, and your credentials never leave the iOS Keychain.</p>
     </details>
     <details>
       <summary>Do my replies look weird to other people?</summary>
@@ -667,13 +675,15 @@
   const rand = (a, b) => a + Math.random() * (b - a);
   const stage = document.querySelector('.hero-stage');
 
+  /* Zones hug the phone (Flighty-style): anchored off the center line so
+     bubbles sit close to, and slightly overlap, the device edges. */
   const zones = [
-    { side: 'left',  edge: 'top',    min: 2,  max: 14 },
-    { side: 'left',  edge: 'top',    min: 36, max: 52 },
-    { side: 'left',  edge: 'bottom', min: 6,  max: 20 },
-    { side: 'right', edge: 'top',    min: 7,  max: 22 },
-    { side: 'right', edge: 'top',    min: 46, max: 60 },
-    { side: 'right', edge: 'bottom', min: 3,  max: 15 }
+    { side: 'left',  min: 3,  max: 15 },
+    { side: 'left',  min: 34, max: 50 },
+    { side: 'left',  min: 64, max: 76 },
+    { side: 'right', min: 8,  max: 22 },
+    { side: 'right', min: 40, max: 56 },
+    { side: 'right', min: 68, max: 80 }
   ];
 
   const pool = [
@@ -681,20 +691,20 @@
     'The lake house is booked! June 12–14. Bring the kayaks 🛶',
     'Saw this and thought of you 😂',
     'Concert was unreal. Next one is on me 🎸',
-    'Flight lands at 6:15 — see you at baggage claim ✈️',
+    'Flight lands at 6:15, see you at baggage claim ✈️',
     'The photos from Saturday are amazing 📸',
     'Game night at ours on Friday?',
     'Just sent you the recipe 🍝',
     'Movie starts at 9, don’t be late 🍿',
     'Absolutely! Does 7 work for you?',
-    'Count me in — leaving Friday at 4.',
+    'Count me in! Leaving Friday at 4.',
     'Calling you Saturday morning!',
     'You free for lunch tomorrow?',
     'On my way! 🚗',
     'Just booked the tickets ✈️',
     'Send me the address and I’m there',
-    'That’s amazing — congrats! 🥳',
-    'Perfect — see you at 7! 🎉',
+    'That’s amazing!! Congrats 🥳',
+    'Perfect, see you at 7! 🎉',
     'Call us this weekend! ❤️',
     '9am tee time is ours ⛳',
     'Got two for Friday night! 🎟',
@@ -714,8 +724,9 @@
     el.className = 'float them';
     el.textContent = draw();
     el.style.top = el.style.bottom = el.style.left = el.style.right = '';
-    el.style[z.edge] = rand(z.min, z.max) + '%';
-    el.style[z.side] = rand(1, 7) + '%';
+    el.style.top = rand(z.min, z.max) + '%';
+    if (z.side === 'left') el.style.right = 'calc(50% + ' + rand(95, 165) + 'px)';
+    else el.style.left = 'calc(50% + ' + rand(105, 175) + 'px)';
     void el.offsetWidth;
     el.classList.add('pop-in');
     setTimeout(() => {
