@@ -166,11 +166,6 @@
   .f2 { right: 2%; top: 20%; animation-delay: 1.6s; }
   .f3 { left: 5%; bottom: 24%; animation-delay: 3.1s; }
   .f4 { right: 4%; bottom: 10%; animation-delay: 2.2s; }
-  .hero-fade {
-    position: absolute; left: 0; right: 0; bottom: -1px; height: 34%;
-    background: linear-gradient(180deg, transparent, var(--bg) 82%);
-    z-index: 4; pointer-events: none;
-  }
   @media (max-width: 1020px) {
     .hero-stage .float, .hero-stage .float.row { display: none; }
     .hero-stage { margin-top: 44px; }
@@ -427,7 +422,6 @@
       <img class="scr" src="/assets/shot-brands.png" alt="Flint chat list with company senders and logos">
     </div>
   </div>
-  <div class="hero-fade"></div>
 </div>
 
 <div class="showcase">
@@ -664,7 +658,7 @@
       scrs[si].classList.remove('on');
       si = (si + 1) % scrs.length;
       scrs[si].classList.add('on');
-    }, 5200);
+    }, 7000);
   }
 
   /* Messages pop in and out around the phone like real notifications:
@@ -683,50 +677,42 @@
   ];
 
   const pool = [
-    { k: 'them', t: 'Are we still on for tomorrow night? Thinking that new Thai place on Main 🍜' },
-    { k: 'them', t: 'The lake house is booked! June 12–14. Bring the kayaks 🛶' },
-    { k: 'them', t: 'Saw this and thought of you 😂' },
-    { k: 'them', t: 'Concert was unreal. Next one is on me 🎸' },
-    { k: 'them', t: 'Flight lands at 6:15 — see you at baggage claim ✈️' },
-    { k: 'them', t: 'The photos from Saturday are amazing 📸' },
-    { k: 'them', t: 'Game night at ours on Friday?' },
-    { k: 'them', t: 'Just sent you the recipe 🍝' },
-    { k: 'them', t: 'Movie starts at 9, don’t be late 🍿' },
-    { k: 'me', t: 'Absolutely! Does 7 work for you?' },
-    { k: 'me', t: 'Count me in — leaving Friday at 4.' },
-    { k: 'me', t: 'Calling you Saturday morning!' },
-    { k: 'me', t: 'You free for lunch tomorrow?' },
-    { k: 'me', t: 'On my way! 🚗' },
-    { k: 'me', t: 'Just booked the tickets ✈️' },
-    { k: 'me', t: 'Send me the address and I’m there' },
-    { k: 'me', t: 'That’s amazing — congrats! 🥳' },
-    { k: 'row', av: 'EC', c: '#c33fd4', nm: 'Emily Carter', pv: 'Perfect — see you at 7! 🎉', dot: false },
-    { k: 'row', av: 'SK', c: '#2f89f6', nm: 'Sarah Kim', pv: 'Bring the kayaks 🛶', dot: false },
-    { k: 'row', av: 'D',  c: '#1f7bf0', nm: 'Dad', pv: 'Call us this weekend!', dot: true },
-    { k: 'row', av: 'MR', c: '#2f7cf6', nm: 'Mike Rossi', pv: '9am tee time ⛳', dot: true },
-    { k: 'row', av: 'AR', c: '#7176e8', nm: 'Alex Rivera', pv: 'Got two for Friday night! 🎟', dot: true },
-    { k: 'row', av: 'RN', c: '#34c759', nm: 'Rachel Nguyen', pv: 'She’s going to love it 🎂', dot: false },
-    { k: 'row', av: 'G',  c: '#e8843c', nm: 'Grandma', pv: 'Love you sweetie ❤️', dot: false },
-    { k: 'row', av: 'CT', c: '#1f7bf0', nm: 'Chris Thompson', pv: 'Draft order is set 🏈', dot: true }
+    'Are we still on for tomorrow night? Thinking that new Thai place on Main 🍜',
+    'The lake house is booked! June 12–14. Bring the kayaks 🛶',
+    'Saw this and thought of you 😂',
+    'Concert was unreal. Next one is on me 🎸',
+    'Flight lands at 6:15 — see you at baggage claim ✈️',
+    'The photos from Saturday are amazing 📸',
+    'Game night at ours on Friday?',
+    'Just sent you the recipe 🍝',
+    'Movie starts at 9, don’t be late 🍿',
+    'Absolutely! Does 7 work for you?',
+    'Count me in — leaving Friday at 4.',
+    'Calling you Saturday morning!',
+    'You free for lunch tomorrow?',
+    'On my way! 🚗',
+    'Just booked the tickets ✈️',
+    'Send me the address and I’m there',
+    'That’s amazing — congrats! 🥳',
+    'Perfect — see you at 7! 🎉',
+    'Call us this weekend! ❤️',
+    '9am tee time is ours ⛳',
+    'Got two for Friday night! 🎟',
+    'She’s going to love it 🎂',
+    'Draft order is set 🏈'
   ];
   let bag = [];
   function draw() {
     if (!bag.length) bag = pool.map((_, i) => i).sort(() => Math.random() - 0.5);
     return pool[bag.pop()];
   }
-  function rowHTML(d) {
-    return '<span class="av" style="background:' + d.c + '">' + d.av + '</span>' +
-      '<span><span class="nm">' + d.nm + '</span><br><span class="pv">' + d.pv + '</span></span>' +
-      (d.dot ? '<span class="dot"></span>' : '');
-  }
   function cycle(el) {
     const free = zones.map((z, i) => z.busy ? -1 : i).filter(i => i >= 0);
-    if (!free.length) { setTimeout(() => cycle(el), 700); return; }
+    if (!free.length) { setTimeout(() => cycle(el), 900); return; }
     const zi = free[Math.floor(Math.random() * free.length)];
     const z = zones[zi]; z.busy = true;
-    const item = draw();
-    el.className = 'float ' + (item.k === 'row' ? 'row' : item.k);
-    if (item.k === 'row') el.innerHTML = rowHTML(item); else el.textContent = item.t;
+    el.className = 'float them';
+    el.textContent = draw();
     el.style.top = el.style.bottom = el.style.left = el.style.right = '';
     el.style[z.edge] = rand(z.min, z.max) + '%';
     el.style[z.side] = rand(1, 7) + '%';
@@ -738,16 +724,16 @@
       el.classList.add('pop-out');
       setTimeout(() => {
         z.busy = false;
-        setTimeout(() => cycle(el), rand(250, 1400));
+        setTimeout(() => cycle(el), rand(1400, 3200));
       }, 340);
-    }, rand(3000, 5400));
+    }, rand(5000, 8000));
   }
   if (!reduceMotion && stage) {
     for (let a = 0; a < 4; a++) {
       const el = document.createElement('div');
       el.className = 'float';
       stage.appendChild(el);
-      setTimeout(() => cycle(el), 400 + a * 700 + rand(0, 1200));
+      setTimeout(() => cycle(el), 600 + a * 1400 + rand(0, 1800));
     }
   }
 </script>
