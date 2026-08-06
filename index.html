@@ -116,12 +116,11 @@
     background: linear-gradient(180deg, transparent, var(--bg));
     z-index: 4; pointer-events: none;
   }
-  .hero-stage .phones {
-    position: relative; width: min(405px, 100vw); z-index: 2;
+  .hero-stage video.phone {
+    width: min(405px, 100vw); z-index: 2;
     align-self: flex-start;
+    display: block;
   }
-  .hero-stage video.phone { width: 100%; display: block; }
-  .hero-stage video.intro { position: absolute; inset: 0; }
   @media (prefers-reduced-motion: reduce) {
     .float { animation: none; }
   }
@@ -421,12 +420,9 @@
 </header>
 
 <div class="hero-stage">
-  <div class="phones" aria-label="An iPhone buzzes with a Flint Mail notification, unlocks, and shows the chat list">
-    <video class="phone loop" src="/assets/hero-loop.mp4" poster="/assets/hero-loop-poster.jpg"
-           muted loop playsinline preload="auto"></video>
-    <video class="phone intro" src="/assets/hero-intro.mp4"
-           autoplay muted playsinline></video>
-  </div>
+  <video class="phone" src="/assets/hero.mp4" poster="/assets/hero-loop-poster.jpg"
+         autoplay muted loop playsinline
+         aria-label="An iPhone buzzes with a Flint Mail notification, unlocks to the chat list, and opens a conversation"></video>
 </div>
 
 <div class="showcase">
@@ -653,24 +649,11 @@
     go(idx + 1 >= slides.length ? 0 : idx + 1);
   }, 4200);
 
-  /* ---- Hero animations: unlock intro video, then a seamless loop ---- */
+  /* ---- Hero animations: self-looping phone video + cycling messages ---- */
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const introVid = document.querySelector('.hero-stage video.intro');
-  const loopVid = document.querySelector('.hero-stage video.loop');
-  if (introVid && loopVid) {
-    const startLoop = () => {
-      if (!reduceMotion) loopVid.play().catch(() => {});
-      introVid.remove();
-    };
-    introVid.addEventListener('ended', startLoop);
-    if (reduceMotion) {
-      startLoop();                      // static chat list, no motion
-    } else {
-      const p = introVid.play();
-      if (p) p.catch(startLoop);        // autoplay blocked: show the loop's poster
-    }
-  }
+  const heroVid = document.querySelector('.hero-stage video.phone');
+  if (heroVid && reduceMotion) heroVid.pause();
 
   /* Messages pop in and out around the phone like real notifications:
      a big shuffled pool of messages, six uneven zones on both sides
