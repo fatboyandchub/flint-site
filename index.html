@@ -72,20 +72,6 @@
     margin: 22px auto 0; max-width: 560px;
     font-size: clamp(1.05rem, 2.6vw, 1.3rem); color: var(--muted);
   }
-  .soon-pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    margin-top: 30px; padding: 10px 20px;
-    border: 1px solid var(--ring); border-radius: 999px;
-    background: var(--surface); color: var(--fg);
-    font-size: 0.95rem; font-weight: 500;
-  }
-  .soon-pill .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
-    animation: pulse 2.2s ease-in-out infinite;
-  }
-  @keyframes pulse { 50% { opacity: 0.35; } }
 
   /* ---- Device frame (straight, full screenshot, no crops) ---- */
   .device {
@@ -416,11 +402,10 @@
   <img class="appicon" src="/assets/icon-512.png" alt="Flint Mail app icon">
   <h1>Email that feels<br>like <span class="grad">texting.</span></h1>
   <p class="sub">Flint turns every sender into a conversation. Bubbles instead of chains, replies instead of rituals. Your inbox finally reads like your messages.</p>
-  <span class="soon-pill"><span class="dot"></span>Coming soon to iPhone</span>
 </header>
 
 <div class="hero-stage">
-  <video class="phone" src="/assets/hero.mp4?v=7" poster="/assets/hero-loop-poster.jpg?v=7"
+  <video class="phone" src="/assets/hero.mp4?v=8" poster="/assets/hero-loop-poster.jpg?v=8"
          autoplay muted loop playsinline
          aria-label="An iPhone buzzes with a Flint Mail notification, unlocks to the chat list, and opens a conversation"></video>
 </div>
