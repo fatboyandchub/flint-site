@@ -19,7 +19,6 @@
     --fg: #f5f5f7;
     --muted: #98989f;
     --accent: #6eb1db;
-    --accent-2: #3d7fb5;
     --ring: rgba(255,255,255,0.09);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,7 +41,7 @@
     border-bottom: 1px solid var(--ring);
   }
   .nav-inner {
-    max-width: 980px; margin: 0 auto; padding: 12px 22px;
+    max-width: 1060px; margin: 0 auto; padding: 12px 22px;
     display: flex; align-items: center; gap: 12px;
   }
   .nav-inner img { width: 30px; height: 30px; border-radius: 8px; }
@@ -53,7 +52,7 @@
 
   /* Hero */
   .hero {
-    max-width: 980px; margin: 0 auto; padding: 92px 22px 40px;
+    max-width: 980px; margin: 0 auto; padding: 88px 22px 30px;
     text-align: center;
   }
   .hero img.appicon {
@@ -72,7 +71,6 @@
   .hero .sub {
     margin: 22px auto 0; max-width: 560px;
     font-size: clamp(1.05rem, 2.6vw, 1.3rem); color: var(--muted);
-    font-weight: 400;
   }
   .soon-pill {
     display: inline-flex; align-items: center; gap: 8px;
@@ -89,62 +87,150 @@
   }
   @keyframes pulse { 50% { opacity: 0.35; } }
 
-  /* Phone + carousel */
-  .showcase { padding: 46px 22px 30px; display: flex; justify-content: center; }
-  .phone {
+  /* ---- Showcase rail (App Store-style cards) ---- */
+  .showcase { padding: 52px 0 8px; position: relative; }
+  .rail {
+    display: flex; gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px max(22px, calc(50vw - 520px)) 34px;
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .slide {
+    scroll-snap-align: center;
+    flex: 0 0 min(330px, 84vw);
+    aspect-ratio: 330 / 560;
+    border-radius: 34px;
+    padding: 30px 26px 0;
+    overflow: hidden;
     position: relative;
-    width: min(340px, 82vw);
-    border-radius: 54px;
-    background: #0a0a0c;
-    padding: 10px;
-    border: 1px solid rgba(255,255,255,0.14);
-    box-shadow:
-      0 0 0 1px rgba(0,0,0,0.9),
-      0 30px 80px rgba(0,0,0,0.75),
-      0 6px 26px rgba(110,177,219,0.10);
+    background: linear-gradient(165deg, var(--g1), var(--g2) 90%);
+    border: 1px solid rgba(255,255,255,0.10);
+    display: flex; flex-direction: column;
   }
-  .screen {
-    position: relative; overflow: hidden;
-    border-radius: 44px;
+  .slide h3 {
+    font-size: 1.62rem; font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.14; text-align: center;
+  }
+  .slide > p {
+    margin: 9px auto 0; text-align: center;
+    font-size: 0.93rem; max-width: 250px;
+    color: rgba(255,255,255,0.66);
+  }
+  .slide.on-light h3 { color: #16181d; }
+  .slide.on-light > p { color: rgba(22,24,29,0.62); }
+
+  .shot {
+    margin: 22px auto 0;
+    width: 76%;
+    border-radius: 30px 30px 0 0;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-bottom: none;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+    flex: 1; min-height: 0;
     background: #000;
-    aspect-ratio: 750 / 1630;
   }
-  .track {
-    display: flex; height: 100%;
-    transition: transform .65s cubic-bezier(.33,.0,.15,1);
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .shot.bottom img { object-position: bottom; }
+  .shot.tilt-l { transform: rotate(-4deg) translateY(10px); transform-origin: bottom center; }
+  .shot.tilt-r { transform: rotate(4deg) translateY(10px); transform-origin: bottom center; }
+
+  /* duo phones (light + dark) */
+  .duo { position: relative; flex: 1; min-height: 0; margin-top: 22px; }
+  .duo .shot {
+    position: absolute; bottom: -12px; width: 62%; margin: 0;
+    border-radius: 24px 24px 0 0;
   }
-  .track img {
-    width: 100%; height: 100%; object-fit: cover;
-    flex-shrink: 0; display: block;
-    user-select: none; -webkit-user-drag: none;
+  .duo .shot.back { left: 2%; transform: rotate(-6deg); z-index: 1; }
+  .duo .shot.front { right: 2%; transform: rotate(5deg) translateY(6px); z-index: 2; }
+
+  /* wide shot (photo card) */
+  .shot.wide {
+    width: 88%;
+    border-radius: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.16);
+    flex: 0 0 auto;
+    margin-top: auto; margin-bottom: 30px;
   }
-  .island {
-    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
-    width: 32%; height: 24px; border-radius: 999px; background: #000;
-    z-index: 3;
+  .shot.wide img { height: auto; }
+  .slide .spacer { flex: 1; }
+
+  .rail-controls {
+    display: flex; justify-content: center; gap: 14px; margin-top: 2px;
   }
-  .caption {
-    text-align: center; margin-top: 26px;
-    font-size: 1.05rem; color: var(--muted);
-    min-height: 1.6em;
-    transition: opacity .3s;
+  .rail-controls button {
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--ring); background: var(--surface);
+    color: var(--fg); font-size: 1.1rem; cursor: pointer;
+    transition: background .2s;
   }
-  .dots { display: flex; justify-content: center; gap: 9px; margin-top: 16px; }
-  .dots button {
-    width: 8px; height: 8px; border-radius: 50%; border: none; cursor: pointer;
-    background: rgba(255,255,255,0.22); padding: 0;
-    transition: background .3s, transform .3s;
-  }
-  .dots button.active { background: var(--fg); transform: scale(1.25); }
+  .rail-controls button:hover { background: var(--surface-2); }
 
   /* Sections */
-  section { max-width: 980px; margin: 0 auto; padding: 76px 22px; }
+  section { max-width: 1060px; margin: 0 auto; padding: 76px 22px; }
   .sec-title {
     font-size: clamp(1.8rem, 4.5vw, 2.6rem);
     font-weight: 700; letter-spacing: -0.025em; text-align: center;
   }
-  .sec-sub { text-align: center; color: var(--muted); margin: 12px auto 0; max-width: 520px; }
+  .sec-sub { text-align: center; color: var(--muted); margin: 12px auto 0; max-width: 540px; }
 
+  /* Chains vs chats */
+  .compare {
+    margin-top: 48px;
+    display: grid; gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: stretch;
+  }
+  .pane {
+    border-radius: 24px; border: 1px solid var(--ring);
+    padding: 24px; position: relative; overflow: hidden;
+  }
+  .pane .tag {
+    display: inline-block; font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .pane.old { background: var(--surface); }
+  .pane.old .tag { background: rgba(255,255,255,0.08); color: var(--muted); }
+  .pane.new { background: linear-gradient(165deg, #16324f, #0b1826); }
+  .pane.new .tag { background: rgba(110,177,219,0.18); color: #9ad0f5; }
+  .chain {
+    font-size: 0.78rem; color: var(--muted); line-height: 1.55;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .chain .q1 { padding-left: 12px; border-left: 2px solid rgba(255,255,255,0.15); margin: 8px 0; }
+  .chain .q2 { padding-left: 12px; border-left: 2px solid rgba(255,255,255,0.10); margin: 8px 0; }
+  .chain .hdr { color: rgba(255,255,255,0.35); }
+  .bubbles { display: flex; flex-direction: column; gap: 10px; }
+  .bubble {
+    max-width: 85%; padding: 10px 16px; border-radius: 20px;
+    font-size: 0.95rem; line-height: 1.4;
+  }
+  .bubble.them { background: rgba(255,255,255,0.12); border-bottom-left-radius: 6px; align-self: flex-start; }
+  .bubble.me { background: #0a84ff; border-bottom-right-radius: 6px; align-self: flex-end; }
+
+  /* Stats strip */
+  .stats {
+    margin-top: 0; padding-top: 0;
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    text-align: center;
+  }
+  .stat {
+    border-radius: 24px; border: 1px solid var(--ring);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    padding: 34px 20px;
+  }
+  .stat .num {
+    font-size: 3rem; font-weight: 700; letter-spacing: -0.03em;
+    background: linear-gradient(92deg, #7cc0ea, #4a8fc0);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .stat .lbl { margin-top: 6px; color: var(--muted); font-size: 0.95rem; }
+
+  /* Features grid */
   .grid {
     margin-top: 48px;
     display: grid; gap: 18px;
@@ -175,9 +261,7 @@
   }
 
   /* Privacy band */
-  .privacy-band {
-    max-width: 980px; margin: 0 auto 20px; padding: 0 22px;
-  }
+  .privacy-band { max-width: 1060px; margin: 0 auto; padding: 0 22px; }
   .privacy-inner {
     border-radius: 28px; padding: 56px 30px; text-align: center;
     background:
@@ -189,12 +273,28 @@
   .privacy-inner p { color: var(--muted); max-width: 560px; margin: 14px auto 0; }
   .privacy-inner .link { display: inline-block; margin-top: 22px; font-weight: 500; }
 
-  footer {
-    border-top: 1px solid var(--ring);
-    margin-top: 60px;
+  /* FAQ */
+  .faq { max-width: 720px; }
+  .faq details {
+    border-bottom: 1px solid var(--ring);
+    padding: 4px 0;
   }
+  .faq summary {
+    cursor: pointer; list-style: none;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 4px; font-weight: 600; font-size: 1.02rem;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "+"; font-size: 1.4rem; font-weight: 400; color: var(--muted);
+    transition: transform .25s;
+  }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { padding: 0 4px 20px; color: var(--muted); font-size: 0.97rem; }
+
+  footer { border-top: 1px solid var(--ring); margin-top: 60px; }
   .foot-inner {
-    max-width: 980px; margin: 0 auto; padding: 30px 22px 44px;
+    max-width: 1060px; margin: 0 auto; padding: 30px 22px 44px;
     display: flex; gap: 22px; flex-wrap: wrap; align-items: center;
     font-size: 0.88rem; color: var(--muted);
   }
@@ -213,7 +313,7 @@
     <div class="nav-links">
       <a href="#features">Features</a>
       <a href="#privacy">Privacy</a>
-      <a href="/privacy.html">Policy</a>
+      <a href="#faq">FAQ</a>
     </div>
   </div>
 </nav>
@@ -226,21 +326,99 @@
 </header>
 
 <div class="showcase">
-  <div>
-    <div class="phone">
-      <div class="screen">
-        <div class="island"></div>
-        <div class="track" id="track">
-          <img src="/assets/shot-chats.png" alt="Flint chat list — every sender is a conversation">
-          <img src="/assets/shot-conversation.png" alt="A Flint conversation — emails as chat bubbles">
-          <img src="/assets/shot-brands.png" alt="Flint chat list with company senders and their logos">
+  <div class="rail" id="rail">
+
+    <article class="slide" style="--g1:#1c3f66; --g2:#0a1524;">
+      <h3>Your inbox,<br>as chats.</h3>
+      <p>Every sender becomes a conversation — people first, noise last.</p>
+      <div class="shot"><img src="/assets/shot-chats.png" alt="Flint chat list, dark mode"></div>
+    </article>
+
+    <article class="slide" style="--g1:#34275e; --g2:#120d24;">
+      <h3>Reply like<br>you're texting.</h3>
+      <p>Real email underneath. Bubbles, photos and emoji on top.</p>
+      <div class="shot tilt-r bottom"><img src="/assets/shot-conversation.png" alt="A Flint conversation with chat bubbles"></div>
+    </article>
+
+    <article class="slide on-light" style="--g1:#eef1f5; --g2:#c8d2de;">
+      <h3>Light or dark.</h3>
+      <p>Flint follows your iPhone — or set the mood yourself.</p>
+      <div class="duo">
+        <div class="shot back"><img src="/assets/shot-light-list.png" alt="Flint in light mode"></div>
+        <div class="shot front"><img src="/assets/shot-chats.png" alt="Flint in dark mode"></div>
+      </div>
+    </article>
+
+    <article class="slide" style="--g1:#14413c; --g2:#081a17;">
+      <h3>Every account.<br>One app.</h3>
+      <p>Gmail, Outlook, iCloud, Yahoo, AOL — even plain IMAP.</p>
+      <div class="shot tilt-l"><img src="/assets/shot-accounts.png" alt="Flint's Add Account screen with all providers"></div>
+    </article>
+
+    <article class="slide" style="--g1:#3a2350; --g2:#150c22;">
+      <h3>Photos, front<br>and center.</h3>
+      <p>Attachments show up like they do in Messages — big and beautiful.</p>
+      <div class="spacer"></div>
+      <div class="shot wide"><img src="/assets/shot-photo.png" alt="A photo attachment shown inline as a chat bubble"></div>
+    </article>
+
+    <article class="slide" style="--g1:#16324f; --g2:#0b1826;">
+      <h3>Setup that<br>holds your hand.</h3>
+      <p>Flint walks you through each provider, step by illustrated step.</p>
+      <div class="shot tilt-r"><img src="/assets/shot-setup.png" alt="Flint's guided iCloud setup with illustrated steps"></div>
+    </article>
+
+    <article class="slide" style="--g1:#26262e; --g2:#0e0e12;">
+      <h3>Newsletters,<br>tamed.</h3>
+      <p>Brands get their logos and their own lane — out of your way.</p>
+      <div class="shot"><img src="/assets/shot-brands.png" alt="Flint chat list with company senders and logos"></div>
+    </article>
+
+  </div>
+  <div class="rail-controls">
+    <button id="prev" aria-label="Previous screenshot">‹</button>
+    <button id="next" aria-label="Next screenshot">›</button>
+  </div>
+</div>
+
+<section>
+  <h2 class="sec-title">Same emails. None of the noise.</h2>
+  <p class="sec-sub">Every reply you get is buried in quoted history. Flint reads the chain so you don't have to.</p>
+  <div class="compare">
+    <div class="pane old">
+      <span class="tag">Every other mail app</span>
+      <div class="chain">
+        <div class="hdr">Re: Re: Re: Dinner tomorrow?</div>
+        <p>Perfect — see you at 7!</p>
+        <div class="q1">
+          <span class="hdr">On Aug 5, 2026, at 8:31 PM, jay wrote:</span><br>
+          Absolutely! Does 7 work for you?
+          <div class="q2">
+            <span class="hdr">On Aug 5, 2026, at 8:29 PM, Emily wrote:</span><br>
+            Are we still on for tomorrow night? I was thinking that new Thai place on Main
+            <div class="q2">
+              <span class="hdr">From: jay crane<br>Sent: Tuesday, August 4…</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <p class="caption" id="caption">Every sender becomes a chat.</p>
-    <div class="dots" id="dots"></div>
+    <div class="pane new">
+      <span class="tag">Flint</span>
+      <div class="bubbles">
+        <div class="bubble them">Are we still on for tomorrow night? I was thinking that new Thai place on Main 🍜</div>
+        <div class="bubble me">Absolutely! Does 7 work for you?</div>
+        <div class="bubble them">Perfect — see you at 7! 🎉</div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<section class="stats">
+  <div class="stat"><div class="num">0</div><div class="lbl">Flint servers between you and your mail</div></div>
+  <div class="stat"><div class="num">5+</div><div class="lbl">providers — plus any IMAP account</div></div>
+  <div class="stat"><div class="num">100%</div><div class="lbl">of your mail stored on your iPhone</div></div>
+</section>
 
 <section id="features">
   <h2 class="sec-title">Built like a messenger.<br>Works like email.</h2>
@@ -287,6 +465,7 @@
     <span class="chip">iCloud Mail</span>
     <span class="chip">Yahoo</span>
     <span class="chip">AOL</span>
+    <span class="chip">IMAP</span>
   </div>
 </section>
 
@@ -298,6 +477,32 @@
   </div>
 </div>
 
+<section class="faq" id="faq">
+  <h2 class="sec-title">Questions, answered.</h2>
+  <div style="margin-top: 34px;">
+    <details>
+      <summary>How is Flint different from Mail or Gmail?</summary>
+      <p>Traditional apps show email the way servers store it: threads full of quoted history, subject lines, and signatures. Flint reads the thread for you and shows just what each person actually said — as chat bubbles, grouped by sender, newest at the bottom. It feels like Messages, but every message is real email.</p>
+    </details>
+    <details>
+      <summary>Which accounts can I connect?</summary>
+      <p>Gmail and Google Workspace, Outlook and Microsoft 365, iCloud Mail, Yahoo, AOL — and any standard IMAP mailbox. You can connect several at once and switch instantly.</p>
+    </details>
+    <details>
+      <summary>Where is my email stored?</summary>
+      <p>On your iPhone, in an encrypted local cache — that's also why search and scrolling are instant. Flint talks directly to your mail provider; there is no Flint cloud in between, and your credentials never leave the iOS Keychain.</p>
+    </details>
+    <details>
+      <summary>Do my replies look weird to other people?</summary>
+      <p>No. What you send is a normal email, from your normal address, with proper reply threading. Recipients can't tell you sent it from Flint.</p>
+    </details>
+    <details>
+      <summary>When can I get it?</summary>
+      <p>Flint is in final testing and coming soon to the App Store for iPhone. It will be free to download at launch.</p>
+    </details>
+  </div>
+</section>
+
 <footer>
   <div class="foot-inner">
     <a href="/privacy.html">Privacy Policy</a>
@@ -307,44 +512,40 @@
 </footer>
 
 <script>
-  const track = document.getElementById('track');
-  const caption = document.getElementById('caption');
-  const dotsWrap = document.getElementById('dots');
-  const captions = [
-    'Every sender becomes a chat.',
-    'Reply like you’re texting.',
-    'Newsletters and receipts, tamed.'
-  ];
-  const n = track.children.length;
-  let i = 0, timer;
+  const rail = document.getElementById('rail');
+  const slides = [...rail.children];
+  let idx = 0, userTouched = 0;
 
-  for (let k = 0; k < n; k++) {
-    const b = document.createElement('button');
-    b.setAttribute('aria-label', 'Screenshot ' + (k + 1));
-    b.addEventListener('click', () => { go(k); restart(); });
-    dotsWrap.appendChild(b);
+  function slideWidth() { return slides[0].getBoundingClientRect().width + 20; }
+  function centerOf(k) {
+    const s = slides[k];
+    return s.offsetLeft - (rail.clientWidth - s.getBoundingClientRect().width) / 2;
   }
-  const dots = [...dotsWrap.children];
-
-  function go(k) {
-    i = (k + n) % n;
-    track.style.transform = 'translateX(-' + (i * 100) + '%)';
-    dots.forEach((d, j) => d.classList.toggle('active', j === i));
-    caption.style.opacity = 0;
-    setTimeout(() => { caption.textContent = captions[i]; caption.style.opacity = 1; }, 280);
+  function go(k, smooth = true) {
+    idx = Math.max(0, Math.min(slides.length - 1, k));
+    rail.scrollTo({ left: centerOf(idx), behavior: smooth ? 'smooth' : 'auto' });
   }
-  function restart() { clearInterval(timer); timer = setInterval(() => go(i + 1), 4000); }
+  document.getElementById('next').addEventListener('click', () => { userTouched = Date.now(); go(idx + 1); });
+  document.getElementById('prev').addEventListener('click', () => { userTouched = Date.now(); go(idx - 1); });
 
-  let x0 = null;
-  track.addEventListener('touchstart', e => x0 = e.touches[0].clientX, { passive: true });
-  track.addEventListener('touchend', e => {
-    if (x0 === null) return;
-    const dx = e.changedTouches[0].clientX - x0;
-    if (Math.abs(dx) > 40) { go(i + (dx < 0 ? 1 : -1)); restart(); }
-    x0 = null;
+  ['touchstart', 'wheel', 'pointerdown'].forEach(ev =>
+    rail.addEventListener(ev, () => userTouched = Date.now(), { passive: true }));
+
+  rail.addEventListener('scroll', () => {
+    let best = 0, bestD = Infinity;
+    const mid = rail.scrollLeft + rail.clientWidth / 2;
+    slides.forEach((s, k) => {
+      const c = s.offsetLeft + s.getBoundingClientRect().width / 2;
+      const d = Math.abs(c - mid);
+      if (d < bestD) { bestD = d; best = k; }
+    });
+    idx = best;
   }, { passive: true });
 
-  go(0); restart();
+  setInterval(() => {
+    if (Date.now() - userTouched < 8000) return;
+    go(idx + 1 >= slides.length ? 0 : idx + 1);
+  }, 4200);
 </script>
 
 </body>
