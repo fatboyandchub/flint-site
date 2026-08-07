@@ -77,19 +77,42 @@
     font-size: clamp(1rem, 2.2vw, 1.2rem); color: var(--muted);
   }
 
-  /* ---- Device frame (straight, full screenshot, no crops) ---- */
+  /* ---- Device frame (straight, full screenshot, no crops) ----
+     Matches the hero video's phone: a titanium rail lit from the upper
+     right instead of a flat white hairline, the same bezel gradient, and
+     the same buttons. The rail is the border box, the bezel is the
+     padding box, so both rings scale with the phone. */
   .device {
-    background: #000;
+    --bw: 3px;                       /* rail width */
+    --bp: 2px;                       /* how far the buttons stand proud */
+    background:
+      linear-gradient(145deg, #2e2e33, #1a1a1e 55%, #121215) padding-box,
+      linear-gradient(128deg, #eef2f8 0%, #a7aeba 17%, #55565f 42%,
+                      #2c2d34 68%, #7c7f89 100%) border-box;
     border-radius: 12.5% / 5.75%;
     padding: 2.2%;
-    border: 1px solid rgba(255,255,255,0.28);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+    border: var(--bw) solid transparent;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 80px rgba(120,170,220,0.10);
     position: relative;
   }
   .device img { width: 100%; display: block; border-radius: 10.8% / 5%; }
   .device::after {
     content: ""; position: absolute; top: 4.2%; left: 50%; transform: translateX(-50%);
     width: 30%; height: 2.9%; border-radius: 999px; background: #000;
+  }
+  /* action + volume up + volume down left, side button right */
+  .device i {
+    position: absolute; width: var(--bp); border-radius: 1px;
+    left: calc(-1 * (var(--bw) + var(--bp)));
+    background: linear-gradient(90deg, #b3b9c4, #4a4b53);
+  }
+  .device i.b1 { top: 18.4%; height: 5.4%; }
+  .device i.b2 { top: 26.1%; height: 8%; }
+  .device i.b3 { top: 35.6%; height: 8%; }
+  .device i.b4 {
+    top: 23.7%; height: 16.6%; left: auto;
+    right: calc(-1 * (var(--bw) + var(--bp)));
+    background: linear-gradient(270deg, #b3b9c4, #4a4b53);
   }
 
   /* ---- Hero phone column ---- */
@@ -134,7 +157,7 @@
   .tile-light { background: linear-gradient(180deg, #f7f7f9, #dfe2e7); padding-bottom: 0; }
   .tile-light h3 { color: #16181d; }
   .tile-light .blurb { color: rgba(22,24,29,0.62); }
-  .mini-phone { width: 168px; margin: 22px auto -84px; }
+  .mini-phone { width: 168px; margin: 22px auto -84px; --bw: 2px; --bp: 1.5px; }
   .chatmock { margin: auto 0; padding: 26px 0; display: flex; flex-direction: column; gap: 10px; }
   .cstamp { text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
   .cb {
@@ -391,7 +414,7 @@
     </div>
   </div>
   <div class="hero-right">
-    <video class="phone" src="/assets/hero.mp4?v=14" poster="/assets/hero-loop-poster.jpg?v=14"
+    <video class="phone" src="/assets/hero.mp4?v=15" poster="/assets/hero-loop-poster.jpg?v=15"
            autoplay muted loop playsinline
            aria-label="An iPhone buzzes with a Flint Mail notification, unlocks, and shows off the app"></video>
   </div>
@@ -404,7 +427,7 @@
     <span class="kicker">Chats</span>
     <h3>Your inbox, as chats.</h3>
     <p class="blurb">Every sender becomes a conversation. People first, noise last.</p>
-    <div class="device bento-phone"><img src="/assets/shot-light-list.png" alt="Flint chat list, light mode"></div>
+    <div class="device bento-phone"><img src="/assets/shot-light-list.png" alt="Flint chat list, light mode"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div>
   </article>
 
   <article class="tile t5">
@@ -426,7 +449,7 @@
     <span class="kicker">Appearance</span>
     <h3>Light or dark.</h3>
     <p class="blurb">Flint follows your iPhone, or you can set the mood yourself.</p>
-    <div class="device mini-phone"><img src="/assets/shot-split.png" alt="Flint's chat list, half in light mode and half in dark mode"></div>
+    <div class="device mini-phone"><img src="/assets/shot-split.png" alt="Flint's chat list, half in light mode and half in dark mode"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div>
   </article>
 
   <article class="tile t4">
