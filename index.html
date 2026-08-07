@@ -50,27 +50,31 @@
   .nav-links a { color: var(--muted); transition: color .2s; }
   .nav-links a:hover { color: var(--fg); }
 
-  /* Hero */
-  .hero {
-    max-width: 980px; margin: 0 auto; padding: 88px 22px 30px;
-    text-align: center;
+  /* Hero: text left, phone right */
+  .hero-flex {
+    /* Same horizontal band as the slide rail below, so the headline and
+       the first card share a left edge */
+    padding: 14px max(22px, calc(50vw - 530px)) 0;
+    max-width: none;
+    display: flex; align-items: center; gap: 48px;
   }
-  .hero img.appicon {
-    width: 108px; height: 108px; border-radius: 25px;
+  .hero-left { flex: 1; min-width: 0; text-align: center; }
+  .hero-left img.appicon {
+    width: 96px; height: 96px; border-radius: 22px;
     box-shadow: 0 18px 50px rgba(110,177,219,0.28), 0 2px 0 rgba(255,255,255,0.06) inset;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
-  .hero h1 {
-    font-size: clamp(2.6rem, 7vw, 4.4rem);
+  .hero-left h1 {
+    font-size: clamp(2.4rem, 5.2vw, 3.9rem);
     font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;
   }
-  .hero h1 .grad {
+  .hero-left h1 .grad {
     background: linear-gradient(92deg, #7cc0ea, #4a8fc0 55%, #9ad0f5);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .hero .sub {
-    margin: 22px auto 0; max-width: 560px;
-    font-size: clamp(1.05rem, 2.6vw, 1.3rem); color: var(--muted);
+  .hero-left .sub {
+    margin: 16px auto 0; max-width: 480px;
+    font-size: clamp(1rem, 2.2vw, 1.2rem); color: var(--muted);
   }
 
   /* ---- Device frame (straight, full screenshot, no crops) ---- */
@@ -88,144 +92,101 @@
     width: 30%; height: 2.9%; border-radius: 999px; background: #000;
   }
 
-  /* ---- Hero stage (Flighty-style: centered phone + floating cards) ---- */
-  .hero-stage {
+  /* ---- Hero phone column ---- */
+  .hero-right {
+    flex: 0 0 min(612px, 50%);
     position: relative;
-    max-width: 980px; margin: 54px auto 0;
-    display: flex; justify-content: center;
-    padding: 0 22px;
-    height: clamp(360px, 118vw, 500px);
+    height: clamp(420px, 54vw, 560px);
     overflow: hidden;
+    margin-top: 44px;
   }
-  .hero-stage::after {
+  .hero-right::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 90px;
     background: linear-gradient(180deg, transparent, var(--bg));
     z-index: 4; pointer-events: none;
   }
-  .hero-stage video.phone {
-    width: min(405px, 100vw); z-index: 2;
-    align-self: flex-start;
-    display: block;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .float { animation: none; }
-  }
-  .float {
-    position: absolute; z-index: 6;
-    border-radius: 19px;
-    padding: 11px 16px;
-    font-size: 0.94rem; line-height: 1.38;
-    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-    max-width: 250px;
-    opacity: 0;
-    pointer-events: none;
-    will-change: transform, opacity;
-  }
-  .float.pop-in { animation: popin .55s cubic-bezier(.18, 1.35, .4, 1) forwards; }
-  .float.pop-out { animation: popout .3s ease-in forwards; }
-  @keyframes popin {
-    0%   { opacity: 0; transform: scale(0.3) translateY(16px); }
-    70%  { opacity: 1; transform: scale(1.05) translateY(-2px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
-  }
-  @keyframes popout {
-    0%   { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(0.55) translateY(10px); }
-  }
-  .float.them { background: #3a3a3c; border-bottom-left-radius: 5px; transform-origin: bottom left; }
-  .float.them.tail-r {
-    border-bottom-left-radius: 19px; border-bottom-right-radius: 5px;
-    transform-origin: bottom right;
-  }
-  .float.me { background: #0a84ff; border-bottom-right-radius: 5px; transform-origin: bottom right; }
-  .float.row { transform-origin: center bottom; }
-  .float.row {
-    background: rgba(28,28,32,0.92);
-    border: 1px solid var(--ring);
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 18px;
-  }
-  .float.row .av {
-    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 600; font-size: 0.85rem; color: #fff;
-  }
-  .float.row .nm { font-weight: 600; font-size: 0.92rem; }
-  .float.row .pv { color: var(--muted); font-size: 0.85rem; }
-  .float.row .dot { width: 9px; height: 9px; border-radius: 50%; background: #0a84ff; margin-left: 4px; flex-shrink: 0; }
-  .f1 { left: 3%; top: 9%; animation-delay: 0s; }
-  .f2 { right: 2%; top: 20%; animation-delay: 1.6s; }
-  .f3 { left: 5%; bottom: 24%; animation-delay: 3.1s; }
-  .f4 { right: 4%; bottom: 10%; animation-delay: 2.2s; }
-  @media (max-width: 1020px) {
-    .hero-stage .float, .hero-stage .float.row { display: none; }
-    .hero-stage { margin-top: 44px; }
-  }
+  .hero-right video.phone { width: 124%; margin-left: -12%; display: block; margin-top: -40px; }
 
-  /* ---- Showcase rail (App Store-style cards) ---- */
-  .showcase { padding: 64px 0 8px; position: relative; }
-  .rail {
-    display: flex; gap: 20px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 10px max(22px, calc(50vw - 560px)) 34px;
-    scrollbar-width: none;
+  /* ---- Feature bento grid ---- */
+  .bento {
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px;
+    padding: 18px max(22px, calc(50vw - 530px)) 10px;
   }
-  .rail::-webkit-scrollbar { display: none; }
-  .slide {
-    scroll-snap-align: center;
-    flex: 0 0 min(350px, 84vw);
-    border-radius: 34px;
-    padding: 30px 26px 30px;
-    overflow: hidden;
-    position: relative;
-    background: linear-gradient(165deg, var(--g1), var(--g2) 90%);
-    border: 1px solid rgba(255,255,255,0.10);
+  .tile {
+    position: relative; overflow: hidden;
+    border-radius: 30px; border: 1px solid var(--ring);
+    background: linear-gradient(180deg, #17171c, #0e0e11);
+    padding: 28px;
     display: flex; flex-direction: column;
   }
-  .slide h3 {
-    font-size: 1.58rem; font-weight: 700; letter-spacing: -0.02em;
-    line-height: 1.14; text-align: center;
-    min-height: 2.28em;
-    display: flex; align-items: center; justify-content: center;
+  .t7 { grid-column: span 7; max-height: 560px; }
+  .t5 { grid-column: span 5; max-height: 560px; }
+  .t4 { grid-column: span 4; }
+  .t12 { grid-column: span 12; }
+  .kicker {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    background: linear-gradient(92deg, #7cc0ea, #4a8fc0);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .slide > p {
-    margin: 8px auto 0; text-align: center;
-    font-size: 0.93rem; max-width: 260px;
-    color: rgba(255,255,255,0.66);
+  .tile h3 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-top: 8px; }
+  .tile .blurb { margin-top: 8px; color: var(--muted); font-size: 0.95rem; line-height: 1.5; max-width: 360px; }
+  .bento-phone { width: min(232px, 60%); margin: 28px auto 0; }
+  .tile-light { background: linear-gradient(180deg, #f7f7f9, #dfe2e7); padding-bottom: 0; }
+  .tile-light h3 { color: #16181d; }
+  .tile-light .blurb { color: rgba(22,24,29,0.62); }
+  .mini-phone { width: 168px; margin: 22px auto -84px; }
+  .chatmock { margin: auto 0; padding: 26px 0; display: flex; flex-direction: column; gap: 10px; }
+  .cstamp { text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+  .cb {
+    max-width: 86%; padding: 12px 16px; border-radius: 20px;
+    font-size: 1.02rem; line-height: 1.35;
   }
-  .slide.on-light h3 { color: #16181d; }
-  .slide.on-light > p { color: rgba(22,24,29,0.62); }
-  .slide .device { width: 54%; margin: 24px auto 0; }
-  .slide .duo {
-    display: flex; gap: 4%; justify-content: center; align-items: flex-start;
-    margin-top: 26px;
+  .cb.them { background: #26262c; color: var(--fg); align-self: flex-start; border-bottom-left-radius: 6px; }
+  .cb.me {
+    background: linear-gradient(180deg, #3d9bf0, #2e7fd6); color: #fff;
+    align-self: flex-end; border-bottom-right-radius: 6px;
   }
-  .slide .duo .device { width: 46%; margin: 0; }
-  .slide .duo .device:first-child { margin-top: 22px; }
-  .slide .photo-stack {
-    margin: auto 0; padding: 26px 0;
-    display: flex; flex-direction: column; gap: 10px; align-items: center;
+  .cinput {
+    margin-top: 16px; display: flex; align-items: center; justify-content: space-between;
+    border: 1px solid rgba(255,255,255,0.16); border-radius: 999px;
+    padding: 8px 8px 8px 16px; color: rgba(255,255,255,0.38); font-size: 0.95rem;
   }
-  .slide .photo-stack .pic {
-    width: 82%; border-radius: 22px; overflow: hidden;
-    box-shadow: 0 18px 44px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.14);
+  .cinput b {
+    width: 30px; height: 30px; border-radius: 50%; flex: none;
+    background: #2e7fd6; color: #fff; display: grid; place-items: center; font-weight: 700;
   }
-  .slide .photo-stack .pic img { width: 100%; display: block; }
-  .slide .photo-stack .bubble { font-size: 0.98rem; }
-  .slide .photo-stack .bubble.me { align-self: flex-end; margin-right: 9%; }
+  .chips { margin: auto 0; padding: 26px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .chips span {
+    border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.04);
+    border-radius: 999px; padding: 10px 6px; font-size: 0.92rem; color: rgba(255,255,255,0.85);
+    text-align: center;
+  }
+  .shotpanel {
+    margin: 26px 0 0; border-radius: 18px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  }
+  .shotpanel img { width: 100%; display: block; }
+  .tile-row { flex-direction: row; gap: 44px; align-items: center; padding: 36px 40px; }
+  .tile-row .trow-text { flex: 1; }
+  .tile-row .trow-text .blurb { max-width: 420px; }
+  .tile-row .shotpanel { flex: 0 0 min(330px, 38%); margin: 0; }
 
-  .rail-controls {
-    display: flex; justify-content: center; gap: 14px; margin-top: 2px;
+  /* ---- Download badges (inline in hero) ---- */
+  .get-mini { margin-top: 28px; }
+  .store-badges { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .store-badge {
+    display: flex; align-items: center; gap: 10px;
+    background: #000; border: 1px solid rgba(255,255,255,0.35); border-radius: 11px;
+    padding: 8px 18px 8px 13px; color: var(--fg);
+    transition: border-color .2s, transform .2s;
   }
-  .rail-controls button {
-    width: 42px; height: 42px; border-radius: 50%;
-    border: 1px solid var(--ring); background: var(--surface);
-    color: var(--fg); font-size: 1.1rem; cursor: pointer;
-    transition: background .2s;
-  }
-  .rail-controls button:hover { background: var(--surface-2); }
+  .store-badge:hover { border-color: rgba(255,255,255,0.8); transform: translateY(-1px); }
+  .store-badge svg { width: 22px; height: 22px; fill: #fff; flex: none; }
+  .store-badge span { display: flex; flex-direction: column; text-align: left; line-height: 1.15; }
+  .store-badge small { font-size: 0.6rem; color: rgba(255,255,255,0.78); }
+  .store-badge strong { font-size: 0.98rem; font-weight: 600; letter-spacing: -0.01em; }
+  .store-note { font-size: 0.74rem; color: var(--muted); margin-top: 10px; text-align: center; }
 
   /* Sections */
   section { max-width: 1060px; margin: 0 auto; padding: 76px 22px; }
@@ -382,6 +343,18 @@
   .foot-inner a:hover { color: var(--fg); }
   .foot-inner .copy { margin-left: auto; }
   @media (max-width: 520px) { .foot-inner .copy { margin-left: 0; } }
+
+  /* Keep last: overrides component rules above at phone/tablet widths */
+  @media (max-width: 840px) {
+    .hero-flex { flex-direction: column; gap: 10px; text-align: center; padding-top: 44px; }
+    .hero-left .sub { margin: 18px auto 0; }
+    .hero-right { flex: none; width: min(430px, 92vw); height: clamp(360px, 110vw, 540px); }
+    .t7, .t5, .t4, .t12 { grid-column: span 12; max-height: none; }
+    .tile-row { flex-direction: column; gap: 26px; padding: 28px; }
+    .tile-row .shotpanel { flex: none; width: min(330px, 88vw); }
+    .bento-phone { width: min(232px, 64vw); }
+    .hero-right { margin-top: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -398,74 +371,90 @@
   </div>
 </nav>
 
-<header class="hero">
-  <img class="appicon" src="/assets/icon-512.png" alt="Flint Mail app icon">
-  <h1>Email that feels<br>like <span class="grad">texting.</span></h1>
-  <p class="sub">Flint turns every sender into a conversation. Bubbles instead of chains, replies instead of rituals. Your inbox finally reads like your messages.</p>
-</header>
-
-<div class="hero-stage">
-  <video class="phone" src="/assets/hero.mp4?v=9" poster="/assets/hero-loop-poster.jpg?v=9"
-         autoplay muted loop playsinline
-         aria-label="An iPhone buzzes with a Flint Mail notification, unlocks to the chat list, and opens a conversation"></video>
-</div>
-
-<div class="showcase">
-  <div class="rail" id="rail">
-
-    <article class="slide" style="--g1:#1c3f66; --g2:#0a1524;">
-      <h3>Your inbox,<br>as chats.</h3>
-      <p>Every sender becomes a conversation. People first, noise last.</p>
-      <div class="device"><img src="/assets/shot-chats.png" alt="Flint chat list, dark mode"></div>
-    </article>
-
-    <article class="slide" style="--g1:#34275e; --g2:#120d24;">
-      <h3>Reply like<br>you're texting.</h3>
-      <p>Real email underneath. Bubbles, photos and emoji on top.</p>
-      <div class="device"><img src="/assets/shot-light-chat.png" alt="A Flint conversation with chat bubbles"></div>
-    </article>
-
-    <article class="slide on-light" style="--g1:#eef1f5; --g2:#c8d2de;">
-      <h3>Light or dark.</h3>
-      <p>Flint follows your iPhone, or you can set the mood yourself.</p>
-      <div class="duo">
-        <div class="device"><img src="/assets/shot-light-list.png" alt="Flint in light mode"></div>
-        <div class="device"><img src="/assets/shot-chats.png" alt="Flint in dark mode"></div>
+<section class="hero-flex">
+  <div class="hero-left">
+    <img class="appicon" src="/assets/icon-512.png" alt="Flint Mail app icon">
+    <h1>Mail, finally<br><span class="grad">effortless.</span></h1>
+    <p class="sub">Flint turns every sender into a conversation. Bubbles instead of chains, replies instead of rituals. Your inbox finally reads like your messages.</p>
+    <div class="get-mini" id="download">
+      <div class="store-badges">
+        <a class="store-badge" href="#" aria-label="Download on the App Store">
+          <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+          <span><small>Download on the</small><strong>App Store</strong></span>
+        </a>
+        <a class="store-badge" href="#" aria-label="Get it on Google Play">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><polygon points="18,7 86,50 18,93"/></svg>
+          <span><small>Get it on</small><strong>Google Play</strong></span>
+        </a>
       </div>
-    </article>
-
-    <article class="slide" style="--g1:#14413c; --g2:#081a17;">
-      <h3>Every account.<br>One app.</h3>
-      <p>Gmail, Outlook, iCloud, Yahoo, AOL, even plain IMAP.</p>
-      <div class="device"><img src="/assets/shot-accounts.png" alt="Flint's Add Account screen with all providers"></div>
-    </article>
-
-    <article class="slide" style="--g1:#3a2350; --g2:#150c22;">
-      <h3>Photos, front<br>and center.</h3>
-      <p>Attachments show up like they do in Messages: big and beautiful.</p>
-      <div class="photo-stack">
-        <div class="pic"><img src="/assets/shot-photo-clean.png" alt="A photo attachment shown big and inline, like Messages"></div>
-        <div class="bubble me">Wish you were here! 🏞</div>
-      </div>
-    </article>
-
-    <article class="slide" style="--g1:#16324f; --g2:#0b1826;">
-      <h3>Setup that<br>holds your hand.</h3>
-      <p>Flint walks you through each provider, step by illustrated step.</p>
-      <div class="device"><img src="/assets/shot-setup.png" alt="Flint's guided iCloud setup with illustrated steps"></div>
-    </article>
-
-    <article class="slide" style="--g1:#26262e; --g2:#0e0e12;">
-      <h3>Newsletters,<br>tamed.</h3>
-      <p>Brands get their logos and their own lane, out of your way.</p>
-      <div class="device"><img src="/assets/shot-brands.png" alt="Flint chat list with company senders and logos"></div>
-    </article>
-
+      <p class="store-note">Launching soon in both stores.</p>
+    </div>
   </div>
-  <div class="rail-controls">
-    <button id="prev" aria-label="Previous screenshot">‹</button>
-    <button id="next" aria-label="Next screenshot">›</button>
+  <div class="hero-right">
+    <video class="phone" src="/assets/hero.mp4?v=14" poster="/assets/hero-loop-poster.jpg?v=14"
+           autoplay muted loop playsinline
+           aria-label="An iPhone buzzes with a Flint Mail notification, unlocks, and shows off the app"></video>
   </div>
+</section>
+
+
+<div class="bento">
+
+  <article class="tile t7">
+    <span class="kicker">Chats</span>
+    <h3>Your inbox, as chats.</h3>
+    <p class="blurb">Every sender becomes a conversation. People first, noise last.</p>
+    <div class="device bento-phone"><img src="/assets/shot-light-list.png" alt="Flint chat list, light mode"></div>
+  </article>
+
+  <article class="tile t5">
+    <span class="kicker">Replies</span>
+    <h3>Reply like you're texting.</h3>
+    <p class="blurb">Real email underneath. Bubbles, photos and emoji on top.</p>
+    <div class="chatmock" aria-hidden="true">
+      <div class="cstamp">Yesterday 8:41 PM</div>
+      <div class="cb them">Dinner tomorrow? 🍜</div>
+      <div class="cb me">Absolutely! Does 7 work for you?</div>
+      <div class="cb them">Perfect, see you at 7! 🎉</div>
+      <div class="cb me">Should I bring anything?</div>
+      <div class="cb them">Just yourself 😊</div>
+      <div class="cinput">Email Message<b>↑</b></div>
+    </div>
+  </article>
+
+  <article class="tile t4 tile-light">
+    <span class="kicker">Appearance</span>
+    <h3>Light or dark.</h3>
+    <p class="blurb">Flint follows your iPhone, or you can set the mood yourself.</p>
+    <div class="device mini-phone"><img src="/assets/shot-split.png" alt="Flint's chat list, half in light mode and half in dark mode"></div>
+  </article>
+
+  <article class="tile t4">
+    <span class="kicker">Accounts</span>
+    <h3>Every account. One app.</h3>
+    <p class="blurb">All your addresses, one chat list.</p>
+    <div class="chips" aria-hidden="true">
+      <span>Gmail</span><span>Outlook</span><span>iCloud</span>
+      <span>Yahoo</span><span>AOL</span><span>IMAP</span>
+    </div>
+  </article>
+
+  <article class="tile t4">
+    <span class="kicker">Newsletters</span>
+    <h3>Newsletters, tamed.</h3>
+    <p class="blurb">Brands get their logos and their own lane.</p>
+    <div class="shotpanel"><img src="/assets/crop-brands.png" alt="Brand senders with logos in Flint's chat list"></div>
+  </article>
+
+  <article class="tile t12 tile-row">
+    <div class="trow-text">
+      <span class="kicker">Setup</span>
+      <h3>Setup that holds your hand.</h3>
+      <p class="blurb">Connecting an account never feels like homework. Flint walks you through each provider, step by illustrated step, right inside the app.</p>
+    </div>
+    <div class="shotpanel"><img src="/assets/crop-setup.png" alt="Flint's guided iCloud setup with illustrated steps"></div>
+  </article>
+
 </div>
 
 <section>
@@ -544,18 +533,6 @@
   </div>
 </section>
 
-<section class="accounts">
-  <h2 class="sec-title">Bring every inbox.</h2>
-  <div class="chips">
-    <span class="chip">Gmail</span>
-    <span class="chip">Outlook</span>
-    <span class="chip">iCloud Mail</span>
-    <span class="chip">Yahoo</span>
-    <span class="chip">AOL</span>
-    <span class="chip">IMAP</span>
-  </div>
-</section>
-
 <div class="privacy-band" id="privacy">
   <div class="privacy-inner">
     <h2>No servers. Seriously.</h2>
@@ -599,125 +576,13 @@
 </footer>
 
 <script>
-  const rail = document.getElementById('rail');
-  const slides = [...rail.children];
-  let idx = 0, userTouched = 0;
-
-  function slideWidth() { return slides[0].getBoundingClientRect().width + 20; }
-  function centerOf(k) {
-    const s = slides[k];
-    return s.offsetLeft - (rail.clientWidth - s.getBoundingClientRect().width) / 2;
-  }
-  function go(k, smooth = true) {
-    idx = Math.max(0, Math.min(slides.length - 1, k));
-    rail.scrollTo({ left: centerOf(idx), behavior: smooth ? 'smooth' : 'auto' });
-  }
-  document.getElementById('next').addEventListener('click', () => { userTouched = Date.now(); go(idx + 1); });
-  document.getElementById('prev').addEventListener('click', () => { userTouched = Date.now(); go(idx - 1); });
-
-  ['touchstart', 'wheel', 'pointerdown'].forEach(ev =>
-    rail.addEventListener(ev, () => userTouched = Date.now(), { passive: true }));
-
-  rail.addEventListener('scroll', () => {
-    let best = 0, bestD = Infinity;
-    const mid = rail.scrollLeft + rail.clientWidth / 2;
-    slides.forEach((s, k) => {
-      const c = s.offsetLeft + s.getBoundingClientRect().width / 2;
-      const d = Math.abs(c - mid);
-      if (d < bestD) { bestD = d; best = k; }
-    });
-    idx = best;
-  }, { passive: true });
-
-  setInterval(() => {
-    if (Date.now() - userTouched < 8000) return;
-    go(idx + 1 >= slides.length ? 0 : idx + 1);
-  }, 4200);
 
   /* ---- Hero animations: self-looping phone video + cycling messages ---- */
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const heroVid = document.querySelector('.hero-stage video.phone');
+  const heroVid = document.querySelector('.hero-right video.phone');
   if (heroVid && reduceMotion) heroVid.pause();
 
-  /* Messages pop in and out around the phone like real notifications:
-     a big shuffled pool of messages, six uneven zones on both sides
-     (claimed while in use so nothing overlaps), independent random timers. */
-  const rand = (a, b) => a + Math.random() * (b - a);
-  const stage = document.querySelector('.hero-stage');
-
-  /* Zones hug the phone (Flighty-style): anchored off the center line so
-     bubbles sit close to, and slightly overlap, the device edges. */
-  const zones = [
-    { side: 'left',  min: 2,  max: 12 },
-    { side: 'left',  min: 32, max: 44 },
-    { side: 'left',  min: 66, max: 78 },
-    { side: 'right', min: 6,  max: 16 },
-    { side: 'right', min: 38, max: 50 },
-    { side: 'right', min: 70, max: 80 }
-  ];
-
-  const pool = [
-    'Are we still on for tomorrow night? Thinking that new Thai place on Main 🍜',
-    'The lake house is booked! June 12–14. Bring the kayaks 🛶',
-    'Saw this and thought of you 😂',
-    'Concert was unreal. Next one is on me 🎸',
-    'Flight lands at 6:15, see you at baggage claim ✈️',
-    'The photos from Saturday are amazing 📸',
-    'Game night at ours on Friday?',
-    'Just sent you the recipe 🍝',
-    'Movie starts at 9, don’t be late 🍿',
-    'Absolutely! Does 7 work for you?',
-    'Count me in! Leaving Friday at 4.',
-    'Calling you Saturday morning!',
-    'You free for lunch tomorrow?',
-    'On my way! 🚗',
-    'Just booked the tickets ✈️',
-    'Send me the address and I’m there',
-    'That’s amazing!! Congrats 🥳',
-    'Perfect, see you at 7! 🎉',
-    'Call us this weekend! ❤️',
-    '9am tee time is ours ⛳',
-    'Got two for Friday night! 🎟',
-    'She’s going to love it 🎂',
-    'Draft order is set 🏈'
-  ];
-  let bag = [];
-  function draw() {
-    if (!bag.length) bag = pool.map((_, i) => i).sort(() => Math.random() - 0.5);
-    return pool[bag.pop()];
-  }
-  function cycle(el) {
-    const free = zones.map((z, i) => z.busy ? -1 : i).filter(i => i >= 0);
-    if (!free.length) { setTimeout(() => cycle(el), 900); return; }
-    const zi = free[Math.floor(Math.random() * free.length)];
-    const z = zones[zi]; z.busy = true;
-    el.className = 'float them' + (z.side === 'right' ? ' tail-r' : '');
-    el.textContent = draw();
-    el.style.top = el.style.bottom = el.style.left = el.style.right = '';
-    el.style.top = rand(z.min, z.max) + '%';
-    if (z.side === 'left') el.style.right = 'calc(50% + ' + rand(175, 215) + 'px)';
-    else el.style.left = 'calc(50% + ' + rand(175, 215) + 'px)';
-    void el.offsetWidth;
-    el.classList.add('pop-in');
-    setTimeout(() => {
-      el.classList.remove('pop-in');
-      void el.offsetWidth;
-      el.classList.add('pop-out');
-      setTimeout(() => {
-        z.busy = false;
-        setTimeout(() => cycle(el), rand(1400, 3200));
-      }, 340);
-    }, rand(5000, 8000));
-  }
-  if (!reduceMotion && stage) {
-    for (let a = 0; a < 4; a++) {
-      const el = document.createElement('div');
-      el.className = 'float';
-      stage.appendChild(el);
-      setTimeout(() => cycle(el), 600 + a * 1400 + rand(0, 1800));
-    }
-  }
 </script>
 
 </body>
